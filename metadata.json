@@ -1,0 +1,5 @@
+{
+  "name": "Meerkat Ops",
+  "description": "AI-powered operations agent for infrastructure monitoring and automated dev workflows.",
+  "requestFramePermissions": []
+}
