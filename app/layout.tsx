@@ -13,7 +13,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Meerkat Ops | AI-Powered SOC',
+  title: 'Meerkat Ops | Agentic SOC',
   description: 'AI-powered managed SOC for startups. Real-time threat detection, Gemini analysis, and automated incident response.',
   icons: {
     icon: '/icon.svg',
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
-      <body suppressHydrationWarning className="bg-[#0A0A0B] text-zinc-100 antialiased">
+      <body suppressHydrationWarning className="bg-[#141420] text-zinc-100 antialiased">
         {children}
       </body>
     </html>

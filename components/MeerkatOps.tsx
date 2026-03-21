@@ -210,20 +210,20 @@ export default function MeerkatOps() {
     P0: 'bg-red-500', P1: 'bg-orange-500', P2: 'bg-yellow-500', P3: 'bg-blue-500',
   };
   const severityBorder: Record<string, string> = {
-    P0: 'border-red-500/30', P1: 'border-orange-500/30', P2: 'border-yellow-500/30', P3: 'border-blue-500/30',
+    P0: 'border-red-500/50', P1: 'border-orange-500/50', P2: 'border-yellow-500/50', P3: 'border-blue-500/50',
   };
 
   return (
-    <div className="flex h-screen overflow-hidden bg-[#0A0A0B] font-sans text-zinc-100">
+    <div className="flex h-screen overflow-hidden bg-[#141420] font-sans text-zinc-100">
       {/* Sidebar */}
-      <aside className="w-56 border-r border-zinc-800 bg-[#0D0D0E] flex flex-none flex-col">
+      <aside className="w-56 border-r border-zinc-700/50 bg-[#111118] flex flex-none flex-col">
         <div className="p-5 flex items-center gap-3">
           <div className="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center shadow-[0_0_15px_rgba(16,185,129,0.3)]">
             <Shield className="w-5 h-5 text-black" strokeWidth={2.5} />
           </div>
           <div>
             <h1 className="text-lg font-bold tracking-tight">Meerkat <span className="text-emerald-500">Ops</span></h1>
-            <p className="text-[9px] text-zinc-500 uppercase tracking-widest">AI-Powered SOC</p>
+            <p className="text-[9px] text-zinc-400 uppercase tracking-widest">Agentic SOC</p>
           </div>
         </div>
 
@@ -235,10 +235,10 @@ export default function MeerkatOps() {
           <NavItem icon={<Phone className="w-4 h-4" />} label="Admin / On-Call" active={false} onClick={() => window.location.href = '/admin'} />
         </nav>
 
-        <div className="p-3 border-t border-zinc-800 space-y-2">
+        <div className="p-3 border-t border-zinc-700/50 space-y-2">
           <button onClick={startDemo} disabled={isRunning}
             className={cn("w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2",
-              isRunning ? "bg-orange-500/20 text-orange-400 border border-orange-500/30 animate-pulse" : "bg-red-500 hover:bg-red-600 text-white shadow-[0_0_20px_rgba(239,68,68,0.3)]"
+              isRunning ? "bg-orange-500/20 text-orange-400 border border-orange-500/50 animate-pulse" : "bg-red-500 hover:bg-red-600 text-white shadow-[0_0_20px_rgba(239,68,68,0.3)]"
             )}>
             {isRunning ? <><RefreshCw className="w-4 h-4 animate-spin" /> Running...</> : <><Zap className="w-4 h-4" /> Simulate Breach</>}
           </button>
@@ -249,7 +249,7 @@ export default function MeerkatOps() {
       {/* Main Content */}
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Header */}
-        <header className="h-12 border-b border-zinc-800 flex items-center justify-between px-6 bg-[#0A0A0B]/80 backdrop-blur-md z-10 flex-none">
+        <header className="h-12 border-b border-zinc-700/50 flex items-center justify-between px-6 bg-[#141420]/80 backdrop-blur-md z-10 flex-none">
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2 px-3 py-1 bg-emerald-500/10 rounded-lg border border-emerald-500/20 text-[10px] font-bold text-emerald-500 uppercase tracking-widest">
               <Zap className="w-3 h-3" /> Zero to Agent Hackathon
@@ -274,7 +274,7 @@ export default function MeerkatOps() {
               <motion.div key="dashboard" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-4">
 
                 {/* ---- ROW 1: PIPELINE — Ingestion through Analysis ---- */}
-                <div className="rounded-2xl bg-zinc-900/50 border border-zinc-800 p-4">
+                <div className="rounded-2xl bg-zinc-800/40 border border-zinc-700/50 p-4">
                   <div className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold mb-3">Data Pipeline — Ingestion → Analysis</div>
                   <div className="flex items-center gap-2">
                     <PipelineNode label="Google Cloud Storage" sublabel="Log Ingestion" active={hasIngest} current={hasIngest && !hasTriage} running={isRunning || isPolling} color="#4285F4" icon={<Database className="w-5 h-5" />} stat={logBatches.length > 0 ? `${logBatches.length} sources` : ''} />
@@ -290,7 +290,7 @@ export default function MeerkatOps() {
                 </div>
 
                 {/* ---- ROW 2: PIPELINE — Alert through Action ---- */}
-                <div className="rounded-2xl bg-zinc-900/50 border border-zinc-800 p-4">
+                <div className="rounded-2xl bg-zinc-800/40 border border-zinc-700/50 p-4">
                   <div className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold mb-3">Response Pipeline — Alert → Action</div>
                   <div className="flex items-center gap-2">
                     <PipelineNode label="Alert Created" sublabel="P1 + P2" active={hasCreateAlert} current={hasCreateAlert && !hasSlack} running={isRunning || isPolling} color="#EF4444" icon={<AlertTriangle className="w-5 h-5" />} stat={hasCreateAlert ? `${activeAlerts.length} alerts` : ''} />
@@ -305,7 +305,7 @@ export default function MeerkatOps() {
 
                 {/* ---- ROW 3: CLOUD SERVICES ---- */}
                 {services.length > 0 && (
-                  <div className="rounded-2xl bg-zinc-900/50 border border-zinc-800 p-4">
+                  <div className="rounded-2xl bg-zinc-800/40 border border-zinc-700/50 p-4">
                     <div className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold mb-3">Monitored Cloud Services</div>
                     <div className="space-y-2">
                       {services.map((svc) => {
@@ -365,18 +365,19 @@ export default function MeerkatOps() {
                 {/* ---- LIVE FEED + FINDINGS ---- */}
                 <div className="grid grid-cols-2 gap-4">
                   {/* Left: Log Stream + Findings */}
-                  <div className="rounded-2xl bg-zinc-900/50 border border-zinc-800 p-4">
+                  <div className="rounded-2xl bg-zinc-800/40 border border-zinc-700/50 p-4">
                     <h3 className="text-sm font-bold mb-3 flex items-center gap-2">
                       <FileText className="w-4 h-4 text-blue-400" /> Log Stream &amp; Findings
                     </h3>
                     <div className="space-y-2 max-h-[340px] overflow-y-auto">
                       {activity.length === 0 ? (
-                        <p className="text-zinc-600 text-sm text-center py-8">Waiting for logs...</p>
+                        <p className="text-zinc-500 text-sm text-center py-8">Waiting for logs...</p>
                       ) : (
                         [...activity].reverse().map((item) => {
                           const details = parseDetails(item.details);
                           const isFinding = details?.type === 'finding';
                           const isLogBatch = details?.type === 'log_batch';
+                          const isPattern = details?.type === 'pattern_detected';
                           const isAgentPull = details?.type === 'agent_pull';
                           const isSupabaseWrite = details?.type === 'supabase_write';
                           const isGeminiInput = details?.type === 'gemini_input';
@@ -385,12 +386,13 @@ export default function MeerkatOps() {
                           return (
                             <motion.div key={item.id} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }}
                               className={cn("px-3 py-2 rounded-lg border text-xs",
+                                isPattern ? "bg-emerald-500/10 border-emerald-500/30" :
                                 isFinding ? "bg-amber-500/5 border-amber-500/20" :
                                 isLogBatch ? "bg-blue-500/5 border-blue-500/20" :
                                 isAgentPull ? "bg-emerald-500/5 border-emerald-500/20" :
                                 isSupabaseWrite ? "bg-green-500/5 border-green-500/20" :
                                 isGeminiInput || isGeminiOutput ? "bg-purple-500/5 border-purple-500/20" :
-                                "bg-zinc-800/30 border-zinc-800/50"
+                                "bg-zinc-800/50 border-zinc-700/50"
                               )}>
                               {isLogBatch && (
                                 <div>
@@ -403,6 +405,22 @@ export default function MeerkatOps() {
                                         {l.details?.slice(0, 80)}{l.details?.length > 80 ? '...' : ''}
                                       </div>
                                     ))}
+                                  </div>
+                                </div>
+                              )}
+                              {isPattern && (
+                                <div className="px-2 py-1.5 rounded-lg bg-emerald-500/5">
+                                  <div className="flex items-center gap-2 mb-1.5">
+                                    <Shield className="w-4 h-4 text-emerald-400 flex-none" />
+                                    <span className="text-emerald-400 font-bold text-xs">Cross-Source Pattern Detected</span>
+                                  </div>
+                                  <p className="text-[11px] text-zinc-300 leading-relaxed">{String(details?.insight)}</p>
+                                  <div className="flex items-center gap-3 mt-1.5 text-[10px]">
+                                    <span className="text-emerald-400">{String(details?.signals)} signals</span>
+                                    <span className="text-zinc-500">·</span>
+                                    <span className="text-emerald-400">{String(details?.sources)} sources</span>
+                                    <span className="text-zinc-500">·</span>
+                                    <span className="text-zinc-400">User: {(details?.users as string[])?.[0]}</span>
                                   </div>
                                 </div>
                               )}
@@ -444,7 +462,7 @@ export default function MeerkatOps() {
                                   </div>
                                 </div>
                               )}
-                              {!isFinding && !isLogBatch && !isAgentPull && !isSupabaseWrite && !isGeminiInput && !isGeminiOutput && (
+                              {!isPattern && !isFinding && !isLogBatch && !isAgentPull && !isSupabaseWrite && !isGeminiInput && !isGeminiOutput && (
                                 <div className="text-zinc-400">{item.description.replace(/^[📥⚡🎯🔍🧠✅🚨⚠️💬📞⏸️]\s?/, '')}</div>
                               )}
                             </motion.div>
@@ -455,19 +473,19 @@ export default function MeerkatOps() {
                   </div>
 
                   {/* Right: Active Alerts with Evidence */}
-                  <div className="rounded-2xl bg-zinc-900/50 border border-zinc-800 p-4">
+                  <div className="rounded-2xl bg-zinc-800/40 border border-zinc-700/50 p-4">
                     <h3 className="text-sm font-bold mb-3 flex items-center gap-2">
                       <AlertTriangle className="w-4 h-4 text-red-400" /> Active Alerts
                     </h3>
                     {activeAlerts.length === 0 ? (
-                      <p className="text-zinc-600 text-sm text-center py-8">No active alerts yet.</p>
+                      <p className="text-zinc-500 text-sm text-center py-8">No active alerts yet.</p>
                     ) : (
                       <div className="space-y-3 max-h-[340px] overflow-y-auto">
                         {activeAlerts.map((alert) => {
                           const evidence = parseEvidence(alert.description);
                           return (
                             <motion.div key={alert.id} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}
-                              className={cn("p-3 rounded-xl border bg-zinc-800/30 cursor-pointer hover:bg-zinc-800/60 transition-all", severityBorder[alert.severity])}
+                              className={cn("p-3 rounded-xl border bg-zinc-800/50 cursor-pointer hover:bg-zinc-800/60 transition-all", severityBorder[alert.severity])}
                               onClick={() => setSelectedAlert(alert)}>
                               <div className="flex items-start gap-2 mb-2">
                                 <span className={cn("px-1.5 py-0.5 rounded text-[10px] font-bold text-white", severityColor[alert.severity])}>{alert.severity}</span>
@@ -484,7 +502,7 @@ export default function MeerkatOps() {
                                       <span className="text-zinc-400 font-medium">{e.source}:</span> {e.details?.slice(0, 60)}...
                                     </div>
                                   ))}
-                                  {evidence.length > 3 && <div className="text-[9px] text-zinc-600 mt-1">+ {evidence.length - 3} more</div>}
+                                  {evidence.length > 3 && <div className="text-[9px] text-zinc-500 mt-1">+ {evidence.length - 3} more</div>}
                                 </div>
                               )}
                             </motion.div>
@@ -503,7 +521,7 @@ export default function MeerkatOps() {
                       <span className="ml-2 px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-400 text-[10px] font-bold">{pendingReviews.length}</span>
                     </h3>
                     {pendingReviews.map((alert) => (
-                      <div key={alert.id} className="p-4 rounded-xl bg-zinc-800/30 border border-purple-500/20 flex items-center gap-4">
+                      <div key={alert.id} className="p-4 rounded-xl bg-zinc-800/50 border border-purple-500/20 flex items-center gap-4">
                         <span className={cn("px-2 py-0.5 rounded text-xs font-bold text-white flex-none", severityColor[alert.severity])}>{alert.severity}</span>
                         <div className="flex-1 min-w-0">
                           <p className="font-medium text-sm">{alert.title}</p>
@@ -536,7 +554,7 @@ export default function MeerkatOps() {
                   alerts.map((alert) => {
                     const evidence = parseEvidence(alert.description);
                     return (
-                      <div key={alert.id} className={cn("p-5 rounded-xl border bg-zinc-900/50", severityBorder[alert.severity])}>
+                      <div key={alert.id} className={cn("p-5 rounded-xl border bg-zinc-800/40", severityBorder[alert.severity])}>
                         <div className="flex items-start gap-3">
                           <span className={cn("px-2 py-0.5 rounded text-xs font-bold text-white", severityColor[alert.severity])}>{alert.severity}</span>
                           <div className="flex-1">
@@ -557,7 +575,7 @@ export default function MeerkatOps() {
                               <div className="mt-3 p-3 rounded-lg bg-zinc-800/50 border border-zinc-700/30">
                                 <p className="text-xs text-amber-400 uppercase font-bold mb-2">Evidence ({evidence.length} sources)</p>
                                 {evidence.map((e, i) => (
-                                  <div key={i} className="text-xs text-zinc-400 py-1 flex items-start gap-2 border-b border-zinc-800/50 last:border-0">
+                                  <div key={i} className="text-xs text-zinc-400 py-1 flex items-start gap-2 border-b border-zinc-700/50 last:border-0">
                                     <span className="w-1.5 h-1.5 rounded-full bg-amber-500 mt-1.5 flex-none" />
                                     <div>
                                       <span className="font-bold text-zinc-300">{e.source}</span>
@@ -601,7 +619,7 @@ export default function MeerkatOps() {
                   <p className="text-zinc-500 py-12 text-center">No pending reviews.</p>
                 ) : (
                   pendingReviews.map((alert) => (
-                    <motion.div key={alert.id} layout className="p-6 rounded-xl border border-purple-500/20 bg-zinc-900/50">
+                    <motion.div key={alert.id} layout className="p-6 rounded-xl border border-purple-500/20 bg-zinc-800/40">
                       <div className="flex items-start gap-3 mb-4">
                         <span className={cn("px-2 py-0.5 rounded text-xs font-bold text-white", severityColor[alert.severity])}>{alert.severity}</span>
                         <div className="flex-1">
@@ -646,15 +664,15 @@ export default function MeerkatOps() {
                         {msg.role === 'assistant' ? <Shield className="w-4 h-4" /> : <MessageSquare className="w-4 h-4" />}
                       </div>
                       <div className={cn("p-4 rounded-xl text-sm",
-                        msg.role === 'assistant' ? "bg-zinc-900 border border-zinc-800" : "bg-emerald-500 text-black font-medium"
+                        msg.role === 'assistant' ? "bg-zinc-900 border border-zinc-700/50" : "bg-emerald-500 text-black font-medium"
                       )}>{msg.content}</div>
                     </div>
                   ))}
                 </div>
-                <form onSubmit={handleChat} className="mt-auto p-4 bg-zinc-900/50 border border-zinc-800 rounded-xl flex items-center gap-3">
+                <form onSubmit={handleChat} className="mt-auto p-4 bg-zinc-800/40 border border-zinc-700/50 rounded-xl flex items-center gap-3">
                   <input type="text" value={chatInput} onChange={(e) => setChatInput(e.target.value)}
                     placeholder="Ask Meerkat about security events..."
-                    className="flex-1 bg-transparent border-none focus:outline-none text-sm placeholder:text-zinc-600" />
+                    className="flex-1 bg-transparent border-none focus:outline-none text-sm placeholder:text-zinc-500" />
                   <button type="submit" className="p-2 bg-emerald-500 text-black rounded-lg hover:bg-emerald-400 transition-colors">
                     <ChevronRight className="w-5 h-5" />
                   </button>
@@ -697,7 +715,7 @@ export default function MeerkatOps() {
                     <div className="p-4 rounded-lg bg-amber-500/5 border border-amber-500/20">
                       <p className="text-xs text-amber-400 uppercase font-bold mb-3">Evidence — {evidence.length} Sources</p>
                       {evidence.map((e, i) => (
-                        <div key={i} className="py-2 border-b border-zinc-800/50 last:border-0">
+                        <div key={i} className="py-2 border-b border-zinc-700/50 last:border-0">
                           <div className="flex items-center gap-2 mb-1">
                             <span className="w-2 h-2 rounded-full bg-amber-500" />
                             <span className="text-sm font-bold text-zinc-200">{e.source}</span>
@@ -712,7 +730,7 @@ export default function MeerkatOps() {
                 })()}
 
                 {selectedAlert.rationale && (
-                  <div className="p-4 rounded-lg bg-zinc-800/30">
+                  <div className="p-4 rounded-lg bg-zinc-800/50">
                     <p className="text-xs text-zinc-500 uppercase font-bold mb-2">Full Rationale</p>
                     <p className="text-xs text-zinc-400 leading-relaxed">{selectedAlert.rationale}</p>
                   </div>
@@ -737,7 +755,7 @@ function PipelineNode({ label, sublabel, active, current, running, color, icon, 
       initial={active ? { opacity: 0, y: -5 } : {}}
       animate={{ opacity: 1, y: 0 }}
       className={cn("flex flex-col items-center text-center flex-1 min-w-0 py-2 px-1 rounded-xl border transition-all",
-        active ? "" : "bg-zinc-800/10 border-zinc-800/30",
+        active ? "" : "bg-zinc-800/10 border-zinc-700/50/30",
         large ? "flex-[1.3]" : "",
       )}
       style={active ? {
@@ -748,7 +766,7 @@ function PipelineNode({ label, sublabel, active, current, running, color, icon, 
     >
       {/* Icon */}
       <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center mb-1 transition-all",
-          active ? "" : "bg-zinc-800/40 text-zinc-600",
+          active ? "" : "bg-zinc-800/40 text-zinc-500",
           current && running ? "animate-pulse" : "",
           large ? "w-12 h-12" : "",
         )}
@@ -758,14 +776,14 @@ function PipelineNode({ label, sublabel, active, current, running, color, icon, 
       </div>
 
       {/* Vendor name — BIG */}
-      <span className={cn("text-xs font-black leading-tight", !active && "text-zinc-600", large ? "text-sm" : "")}
+      <span className={cn("text-xs font-black leading-tight", !active && "text-zinc-500", large ? "text-sm" : "")}
         style={active ? { color } : undefined}
       >
         {label}
       </span>
 
       {/* Product detail */}
-      <span className={cn("text-[10px] leading-tight mt-0.5", active ? "text-zinc-400" : "text-zinc-700")}>
+      <span className={cn("text-[10px] leading-tight mt-0.5", active ? "text-zinc-400" : "text-zinc-500")}>
         {sublabel}
       </span>
 
