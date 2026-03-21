@@ -13,8 +13,11 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Meerkat Ops | AI Infrastructure Agent',
-  description: 'AI-powered operations agent for infrastructure monitoring and automated dev workflows.',
+  title: 'Meerkat Ops | AI-Powered SOC',
+  description: 'AI-powered managed SOC for startups. Real-time threat detection, Gemini analysis, and automated incident response.',
+  icons: {
+    icon: '/icon.svg',
+  },
 };
 
 export default function RootLayout({children}: {children: React.ReactNode}) {

@@ -1,0 +1,4 @@
+[
+  {"timestamp":"2026-03-21T13:58:00Z","source":"crowdstrike","event":"endpoint_isolated","endpoint_id":"CB-4421","user":"jsmith@acme.com","status":"isolated/offline","risk_score":0.85,"details":"Corporate MacBook remotely wiped by IT at 13:50 UTC. Device went offline at 13:58 UTC. User's cloud credentials remain active despite device isolation."},
+  {"timestamp":"2026-03-21T13:50:12Z","source":"crowdstrike","event":"remote_wipe_initiated","endpoint_id":"CB-4421","user":"jsmith@acme.com","status":"wipe_in_progress","risk_score":0.7,"details":"IT admin initiated remote wipe on jsmith MacBook. Reason: reported lost/stolen."}
+]

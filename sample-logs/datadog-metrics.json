@@ -1,0 +1,4 @@
+[
+  {"timestamp":"2026-03-21T14:37:00Z","source":"datadog","event":"egress_spike","resource":"gs://acme-patient-records","metric":"network.bytes_out","value_gb":4.7,"baseline_gb_per_hr":0.3,"multiplier":"15x","risk_score":0.95,"details":"Network egress spike: 4.7GB transferred in 12 minutes from patient records bucket. Baseline is ~300MB/hr. This is 15x normal volume."},
+  {"timestamp":"2026-03-21T14:30:00Z","source":"datadog","event":"api_call_spike","resource":"gs://acme-patient-records","metric":"api.calls","value":12847,"baseline_per_hr":200,"risk_score":0.88,"details":"Unusual number of storage API calls — 64x baseline in 30 minutes."}
+]

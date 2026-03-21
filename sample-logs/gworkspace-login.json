@@ -1,0 +1,5 @@
+[
+  {"timestamp":"2026-03-21T14:23:11Z","source":"google-workspace","event":"login","user":"jsmith@acme.com","ip":"103.45.67.89","location":"Lagos, Nigeria","device":"Chrome 125 / Windows","risk_score":0.92,"details":"Login from new location. Previous login: New York, USA at 14:03 UTC. Distance: 5,100 miles in 20 minutes."},
+  {"timestamp":"2026-03-21T14:03:44Z","source":"google-workspace","event":"login","user":"jsmith@acme.com","ip":"72.34.12.188","location":"New York, USA","device":"Chrome 125 / macOS","risk_score":0.05,"details":"Normal login from recognized device and location."},
+  {"timestamp":"2026-03-21T13:55:02Z","source":"google-workspace","event":"login","user":"admin@acme.com","ip":"72.34.12.190","location":"New York, USA","device":"Chrome 125 / macOS","risk_score":0.02,"details":"Admin login from office IP range."}
+]

@@ -1,0 +1,4 @@
+[
+  {"timestamp":"2026-03-18T09:00:00Z","source":"nessus","event":"vulnerability_detected","cve":"CVE-2024-3400","cvss":10.0,"host":"gcs-gateway-proxy-01.acme.internal","risk_score":1.0,"details":"Critical vulnerability on Cloud Storage gateway proxy server. CVSS 10.0. Flagged 3 days ago, unpatched. Palo Alto PAN-OS GlobalProtect command injection — allows unauthenticated remote code execution."},
+  {"timestamp":"2026-03-18T09:00:00Z","source":"nessus","event":"vulnerability_detected","cve":"CVE-2024-21887","cvss":9.1,"host":"vpn-01.acme.internal","risk_score":0.91,"details":"Ivanti Connect Secure command injection. High severity, patch available."}
+]

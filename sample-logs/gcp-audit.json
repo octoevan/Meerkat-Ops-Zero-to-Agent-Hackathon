@@ -1,0 +1,5 @@
+[
+  {"timestamp":"2026-03-21T14:25:33Z","source":"gcp-cloud-audit","event":"setIamPolicy","user":"jsmith@acme.com","resource":"gs://acme-patient-records","ip":"103.45.67.89","risk_score":0.98,"details":"Added allUsers binding with Storage Object Viewer role to HIPAA-protected bucket. This makes the bucket publicly readable."},
+  {"timestamp":"2026-03-21T14:24:18Z","source":"gcp-cloud-audit","event":"storage.objects.list","user":"jsmith@acme.com","resource":"gs://acme-patient-records","ip":"103.45.67.89","risk_score":0.6,"details":"Listing objects in patient records bucket from anomalous IP."},
+  {"timestamp":"2026-03-21T14:10:01Z","source":"gcp-cloud-audit","event":"storage.objects.get","user":"admin@acme.com","resource":"gs://acme-internal-docs","ip":"72.34.12.190","risk_score":0.01,"details":"Routine access to internal documentation bucket."}
+]
