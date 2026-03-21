@@ -103,19 +103,13 @@ export default function MeerkatOps() {
 
   useEffect(() => { fetchData(); }, [fetchData]);
 
-  useEffect(() => {
-    if (!isPolling) return;
-    const interval = setInterval(fetchData, 1500);
-    return () => clearInterval(interval);
-  }, [isPolling, fetchData]);
-
-  // Keep polling active while any service is still "running" (waiting for voice/slack stop)
   const hasRunningService = services.some(s => s.status === 'running');
+  const shouldPoll = isPolling || hasRunningService;
   useEffect(() => {
-    if (!hasRunningService) return;
+    if (!shouldPoll) return;
     const interval = setInterval(fetchData, 1500);
     return () => clearInterval(interval);
-  }, [hasRunningService, fetchData]);
+  }, [shouldPoll, fetchData]);
 
   const startDemo = async () => {
     setIsRunning(true);

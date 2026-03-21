@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { google } from '@ai-sdk/google';
 import { generateText } from 'ai';
-import { supabaseAdmin } from '@/lib/supabase';
+import { stopRunningServices } from '@/lib/services';
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -22,16 +22,8 @@ export async function POST(req: NextRequest) {
       const slack = new WebClient(process.env.SLACK_BOT_TOKEN);
 
       // Check if the message is a "stop service" command
-      if (/\bstop\s+(the\s+)?service/i.test(userMessage)) {
-        const { data } = await supabaseAdmin
-          .from('services')
-          .update({
-            status: 'stopped',
-            stopped_by: 'slack',
-            stopped_at: new Date().toISOString(),
-          })
-          .eq('status', 'running')
-          .select();
+      if (/\bstop\s+(the\s+)?(service|breach|attack)/i.test(userMessage)) {
+        const { data } = await stopRunningServices('slack');
 
         const stoppedCount = data?.length ?? 0;
         const replyText = stoppedCount > 0
