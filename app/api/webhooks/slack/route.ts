@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { google } from '@ai-sdk/google';
 import { generateText } from 'ai';
+import { supabaseAdmin } from '@/lib/supabase';
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -20,17 +21,42 @@ export async function POST(req: NextRequest) {
       const { WebClient } = await import('@slack/web-api');
       const slack = new WebClient(process.env.SLACK_BOT_TOKEN);
 
-      const result = await generateText({
-        model: google('gemini-2.0-flash'),
-        system: 'You are Meerkat, an AI SOC analyst. Respond concisely to security questions. Reference specific data when possible.',
-        prompt: userMessage,
-      });
+      // Check if the message is a "stop service" command
+      if (/\bstop\s+(the\s+)?service/i.test(userMessage)) {
+        const { data } = await supabaseAdmin
+          .from('services')
+          .update({
+            status: 'stopped',
+            stopped_by: 'slack',
+            stopped_at: new Date().toISOString(),
+          })
+          .eq('status', 'running')
+          .select();
 
-      await slack.chat.postMessage({
-        channel,
-        thread_ts: threadTs,
-        text: result.text,
-      });
+        const stoppedCount = data?.length ?? 0;
+        const replyText = stoppedCount > 0
+          ? '🛑 Service stopped. GCS bucket `acme-patient-records` is now offline.\n_Stopped via Slack by your command._'
+          : '⚠️ No running services found to stop. The service may have already been stopped.';
+
+        await slack.chat.postMessage({
+          channel,
+          thread_ts: threadTs,
+          text: replyText,
+        });
+      } else {
+        // Default: respond with Gemini analysis
+        const result = await generateText({
+          model: google('gemini-2.0-flash'),
+          system: 'You are Meerkat, an AI SOC analyst. Respond concisely to security questions. Reference specific data when possible.',
+          prompt: userMessage,
+        });
+
+        await slack.chat.postMessage({
+          channel,
+          thread_ts: threadTs,
+          text: result.text,
+        });
+      }
     } catch (err) {
       console.error('Slack webhook error:', err);
     }
