@@ -89,7 +89,7 @@ export default function AdminPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0A0A0B] text-zinc-100 p-8">
+    <div className="min-h-screen bg-[#0C0C10] text-zinc-100 p-8">
       <div className="max-w-2xl mx-auto">
         <Link href="/" className="inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-emerald-400 mb-8 transition-colors">
           <ArrowLeft className="w-4 h-4" /> Back to Dashboard

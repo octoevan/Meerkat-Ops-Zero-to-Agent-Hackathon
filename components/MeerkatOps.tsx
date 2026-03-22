@@ -24,12 +24,7 @@ import {
   FileText,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { clsx, type ClassValue } from 'clsx';
-import { twMerge } from 'tailwind-merge';
-
-function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
+import { cn } from '@/lib/utils';
 
 interface Alert {
   id: string;
@@ -208,16 +203,16 @@ export default function MeerkatOps() {
   };
 
   return (
-    <div className="flex h-screen overflow-hidden bg-[#141420] font-sans text-zinc-100">
+    <div className="flex h-screen overflow-hidden bg-[#0C0C10] font-sans text-zinc-100">
       {/* Sidebar */}
-      <aside className="w-56 border-r border-zinc-700/50 bg-[#111118] flex flex-none flex-col">
+      <aside className="w-56 border-r border-zinc-800/60 bg-[#08080C] flex flex-none flex-col">
         <div className="p-5 flex items-center gap-3">
           <div className="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center shadow-[0_0_15px_rgba(16,185,129,0.3)]">
             <Shield className="w-5 h-5 text-black" strokeWidth={2.5} />
           </div>
           <div>
             <h1 className="text-lg font-bold tracking-tight">Meerkat <span className="text-emerald-500">Ops</span></h1>
-            <p className="text-[9px] text-zinc-400 uppercase tracking-widest">Agentic SOC</p>
+            <p className="text-[11px] text-zinc-400 uppercase tracking-widest">Agentic SOC</p>
           </div>
         </div>
 
@@ -229,7 +224,7 @@ export default function MeerkatOps() {
           <NavItem icon={<Phone className="w-4 h-4" />} label="Admin / On-Call" active={false} onClick={() => window.location.href = '/admin'} />
         </nav>
 
-        <div className="p-3 border-t border-zinc-700/50 space-y-2">
+        <div className="p-3 border-t border-zinc-800/60 space-y-2">
           <button onClick={startDemo} disabled={isRunning}
             className={cn("w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2",
               isRunning ? "bg-orange-500/20 text-orange-400 border border-orange-500/50 animate-pulse" : "bg-red-500 hover:bg-red-600 text-white shadow-[0_0_20px_rgba(239,68,68,0.3)]"
@@ -243,13 +238,13 @@ export default function MeerkatOps() {
       {/* Main Content */}
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Header */}
-        <header className="h-12 border-b border-zinc-700/50 flex items-center justify-between px-6 bg-[#141420]/80 backdrop-blur-md z-10 flex-none">
+        <header className="h-12 border-b border-zinc-800/60 flex items-center justify-between px-6 bg-[#0C0C10]/80 backdrop-blur-md z-10 flex-none">
           <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2 px-3 py-1 bg-emerald-500/10 rounded-lg border border-emerald-500/20 text-[10px] font-bold text-emerald-500 uppercase tracking-widest">
+            <div className="flex items-center gap-2 px-3 py-1 bg-emerald-500/10 rounded-lg border border-emerald-500/20 text-[11px] font-bold text-emerald-500 uppercase tracking-widest">
               <Zap className="w-3 h-3" /> Zero to Agent Hackathon
             </div>
             {isPolling && (
-              <div className="flex items-center gap-2 px-3 py-1 bg-orange-500/10 rounded-lg border border-orange-500/20 text-[10px] font-bold text-orange-400 uppercase tracking-widest animate-pulse">
+              <div className="flex items-center gap-2 px-3 py-1 bg-orange-500/10 rounded-lg border border-orange-500/20 text-[11px] font-bold text-orange-400 uppercase tracking-widest animate-pulse">
                 <Activity className="w-3 h-3" /> Live
               </div>
             )}
@@ -268,39 +263,39 @@ export default function MeerkatOps() {
               <motion.div key="dashboard" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-4">
 
                 {/* ---- ROW 1: PIPELINE — Ingestion through Analysis ---- */}
-                <div className="rounded-2xl bg-zinc-800/40 border border-zinc-700/50 p-4">
-                  <div className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold mb-3">Data Pipeline — Ingestion → Analysis</div>
+                <div className="rounded-2xl bg-white/[0.03] border border-white/[0.06] p-4">
+                  <div className="text-[11px] text-zinc-400 uppercase tracking-widest font-bold mb-3">Data Pipeline — Ingestion → Analysis</div>
                   <div className="flex items-center gap-2">
-                    <PipelineNode label="Google Cloud Storage" sublabel="Log Ingestion" active={hasIngest} current={hasIngest && !hasTriage} running={isRunning || isPolling} color="#4285F4" icon={<Database className="w-5 h-5" />} stat={logBatches.length > 0 ? `${logBatches.length} sources` : ''} />
-                    <PipelineArrow active={hasIngest && hasTriage} color="#4285F4" />
-                    <PipelineNode label="Rules Engine" sublabel="Triage" active={hasTriage} current={hasTriage && !agentActive} running={isRunning || isPolling} color="#F59E0B" icon={<Filter className="w-5 h-5" />} stat={findings.length > 0 ? `${findings.length} flagged` : ''} />
-                    <PipelineArrow active={hasTriage && agentActive} color="#F59E0B" />
-                    <PipelineNode label="Meerkat Ops Agent" sublabel="Vercel AI SDK" active={agentActive} current={agentActive && !hasCreateAlert} running={isRunning || isPolling} color="#10B981" icon={<Shield className="w-5 h-5" />} stat={hasGemini ? 'Analyzing' : hasQueryLogs ? 'Investigating' : ''} large />
-                    <PipelineArrow active={agentActive && hasWriteSupabase} color="#10B981" />
-                    <PipelineNode label="Supabase" sublabel="PostgreSQL" active={hasWriteSupabase || hasCreateAlert} current={hasWriteSupabase && !hasGemini} running={isRunning || isPolling} color="#3ECF8E" icon={<Database className="w-5 h-5" />} stat={hasCreateAlert ? 'Alerts stored' : hasWriteSupabase ? 'Writing events' : ''} />
-                    <PipelineArrow active={(hasWriteSupabase || hasCreateAlert) && hasGemini} color="#3ECF8E" />
-                    <PipelineNode label="Gemini 2.0 Flash" sublabel="Threat Analysis" active={hasGemini} current={hasGemini && !hasCreateAlert} running={isRunning || isPolling} color="#8B5CF6" icon={<Brain className="w-5 h-5" />} stat={hasGemini ? '96% confidence' : ''} />
+                    <PipelineNode label="Google Cloud Storage" sublabel="Log Ingestion" active={hasIngest} current={hasIngest && !hasTriage} running={isRunning || isPolling} color="#38BDF8" icon={<Database className="w-5 h-5" />} stat={logBatches.length > 0 ? `${logBatches.length} sources` : ''} />
+                    <PipelineArrow active={hasIngest && hasTriage} color="#38BDF8" />
+                    <PipelineNode label="Rules Engine" sublabel="Triage" active={hasTriage} current={hasTriage && !agentActive} running={isRunning || isPolling} color="#38BDF8" icon={<Filter className="w-5 h-5" />} stat={findings.length > 0 ? `${findings.length} flagged` : ''} />
+                    <PipelineArrow active={hasTriage && agentActive} color="#38BDF8" />
+                    <PipelineNode label="Meerkat Ops Agent" sublabel="Vercel AI SDK" active={agentActive} current={agentActive && !hasCreateAlert} running={isRunning || isPolling} color="#38BDF8" icon={<Shield className="w-5 h-5" />} stat={hasGemini ? 'Analyzing' : hasQueryLogs ? 'Investigating' : ''} large />
+                    <PipelineArrow active={agentActive && hasWriteSupabase} color="#38BDF8" />
+                    <PipelineNode label="Supabase" sublabel="PostgreSQL" active={hasWriteSupabase || hasCreateAlert} current={hasWriteSupabase && !hasGemini} running={isRunning || isPolling} color="#38BDF8" icon={<Database className="w-5 h-5" />} stat={hasCreateAlert ? 'Alerts stored' : hasWriteSupabase ? 'Writing events' : ''} />
+                    <PipelineArrow active={(hasWriteSupabase || hasCreateAlert) && hasGemini} color="#38BDF8" />
+                    <PipelineNode label="Gemini 2.0 Flash" sublabel="Threat Analysis" active={hasGemini} current={hasGemini && !hasCreateAlert} running={isRunning || isPolling} color="#38BDF8" icon={<Brain className="w-5 h-5" />} stat={hasGemini ? '96% confidence' : ''} />
                   </div>
                 </div>
 
                 {/* ---- ROW 2: PIPELINE — Alert through Action ---- */}
-                <div className="rounded-2xl bg-zinc-800/40 border border-zinc-700/50 p-4">
-                  <div className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold mb-3">Response Pipeline — Alert → Action</div>
+                <div className="rounded-2xl bg-white/[0.03] border border-white/[0.06] p-4">
+                  <div className="text-[11px] text-zinc-400 uppercase tracking-widest font-bold mb-3">Response Pipeline — Alert → Action</div>
                   <div className="flex items-center gap-2">
-                    <PipelineNode label="Alert Created" sublabel="P1 + P2" active={hasCreateAlert} current={hasCreateAlert && !hasSlack} running={isRunning || isPolling} color="#EF4444" icon={<AlertTriangle className="w-5 h-5" />} stat={hasCreateAlert ? `${activeAlerts.length} alerts` : ''} />
-                    <PipelineArrow active={hasCreateAlert && hasSlack} color="#EF4444" />
-                    <PipelineNode label="Slack" sublabel="#soc-alerts" active={hasSlack} current={hasSlack && !hasPhone} running={isRunning || isPolling} color="#E01E5A" icon={<MessageSquare className="w-5 h-5" />} stat={hasSlack ? 'Posted' : ''} />
-                    <PipelineArrow active={hasSlack && hasPhone} color="#E01E5A" />
-                    <PipelineNode label="ElevenLabs + Twilio" sublabel="Voice Call" active={hasPhone} current={hasPhone && !hasRevoke} running={isRunning || isPolling} color="#F59E0B" icon={<Phone className="w-5 h-5" />} stat={hasPhone ? 'On-call dialed' : ''} />
-                    <PipelineArrow active={hasPhone && hasRevoke} color="#F59E0B" />
-                    <PipelineNode label="Human-in-the-Loop" sublabel="needsApproval" active={hasRevoke} current={hasRevoke} running={isRunning || isPolling} color="#F97316" icon={<UserCheck className="w-5 h-5" />} stat={hasRevoke ? 'Awaiting decision' : ''} />
+                    <PipelineNode label="Alert Created" sublabel="P1 + P2" active={hasCreateAlert} current={hasCreateAlert && !hasSlack} running={isRunning || isPolling} color="#FB923C" icon={<AlertTriangle className="w-5 h-5" />} stat={hasCreateAlert ? `${activeAlerts.length} alerts` : ''} />
+                    <PipelineArrow active={hasCreateAlert && hasSlack} color="#FB923C" />
+                    <PipelineNode label="Slack" sublabel="#soc-alerts" active={hasSlack} current={hasSlack && !hasPhone} running={isRunning || isPolling} color="#FB923C" icon={<MessageSquare className="w-5 h-5" />} stat={hasSlack ? 'Posted' : ''} />
+                    <PipelineArrow active={hasSlack && hasPhone} color="#FB923C" />
+                    <PipelineNode label="ElevenLabs + Twilio" sublabel="Voice Call" active={hasPhone} current={hasPhone && !hasRevoke} running={isRunning || isPolling} color="#FB923C" icon={<Phone className="w-5 h-5" />} stat={hasPhone ? 'On-call dialed' : ''} />
+                    <PipelineArrow active={hasPhone && hasRevoke} color="#FB923C" />
+                    <PipelineNode label="Human-in-the-Loop" sublabel="needsApproval" active={hasRevoke} current={hasRevoke} running={isRunning || isPolling} color="#FB923C" icon={<UserCheck className="w-5 h-5" />} stat={hasRevoke ? 'Awaiting decision' : ''} />
                   </div>
                 </div>
 
                 {/* ---- ROW 3: CLOUD SERVICES ---- */}
                 {services.length > 0 && (
-                  <div className="rounded-2xl bg-zinc-800/40 border border-zinc-700/50 p-4">
-                    <div className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold mb-3">Monitored Cloud Services</div>
+                  <div className="rounded-2xl bg-white/[0.03] border border-white/[0.06] p-4">
+                    <div className="text-[11px] text-zinc-400 uppercase tracking-widest font-bold mb-3">Monitored Cloud Services</div>
                     <div className="space-y-2">
                       {services.map((svc) => {
                         const isRunning = svc.status === 'running';
@@ -331,7 +326,7 @@ export default function MeerkatOps() {
                             {/* Service name */}
                             <div className="flex-1 min-w-0">
                               <p className="text-sm font-bold text-zinc-200">{svc.name}</p>
-                              <p className="text-[11px] text-zinc-500">Google Cloud Storage Bucket</p>
+                              <p className="text-[11px] text-zinc-400">Google Cloud Storage Bucket</p>
                             </div>
 
                             {/* Status badge */}
@@ -346,7 +341,7 @@ export default function MeerkatOps() {
 
                             {/* Timestamp */}
                             {!isRunning && svc.stopped_at && (
-                              <div className="text-[10px] text-zinc-500 flex items-center gap-1">
+                              <div className="text-[11px] text-zinc-400 flex items-center gap-1">
                                 <Clock className="w-3 h-3" />
                                 {new Date(svc.stopped_at).toLocaleTimeString()}
                               </div>
@@ -361,7 +356,7 @@ export default function MeerkatOps() {
                 {/* ---- LIVE FEED + FINDINGS ---- */}
                 <div className="grid grid-cols-2 gap-4">
                   {/* Left: Log Stream + Findings */}
-                  <div className="rounded-2xl bg-zinc-800/40 border border-zinc-700/50 p-4">
+                  <div className="rounded-2xl bg-white/[0.03] border border-white/[0.06] p-4">
                     <h3 className="text-sm font-bold mb-3 flex items-center gap-2">
                       <FileText className="w-4 h-4 text-blue-400" /> Log Stream &amp; Findings
                     </h3>
@@ -396,7 +391,7 @@ export default function MeerkatOps() {
                                   <span className="text-zinc-500"> — {String(details?.count)} logs received</span>
                                   <div className="mt-1 space-y-0.5">
                                     {(details?.logs as Array<{event: string; details: string; risk_score: number}>)?.slice(0, 3).map((l, i) => (
-                                      <div key={i} className="text-[10px] text-zinc-500 flex items-center gap-1.5">
+                                      <div key={i} className="text-[11px] text-zinc-400 flex items-center gap-1.5">
                                         <span className={cn("w-1.5 h-1.5 rounded-full flex-none", l.risk_score >= 0.7 ? "bg-red-500" : "bg-zinc-600")} />
                                         {l.details?.slice(0, 80)}{l.details?.length > 80 ? '...' : ''}
                                       </div>
@@ -411,7 +406,7 @@ export default function MeerkatOps() {
                                     <span className="text-emerald-400 font-bold text-xs">Cross-Source Pattern Detected</span>
                                   </div>
                                   <p className="text-[11px] text-zinc-300 leading-relaxed">{String(details?.insight)}</p>
-                                  <div className="flex items-center gap-3 mt-1.5 text-[10px]">
+                                  <div className="flex items-center gap-3 mt-1.5 text-[11px]">
                                     <span className="text-emerald-400">{String(details?.signals)} signals</span>
                                     <span className="text-zinc-500">·</span>
                                     <span className="text-emerald-400">{String(details?.sources)} sources</span>
@@ -426,7 +421,7 @@ export default function MeerkatOps() {
                                   <div>
                                     <span className="text-amber-400 font-bold">{String(details?.source)}</span>
                                     <span className="text-zinc-400"> — {String(details?.details)}</span>
-                                    <div className="text-[10px] text-amber-500/60 mt-0.5">Risk: {Math.round(Number(details?.risk_score) * 100)}%</div>
+                                    <div className="text-[11px] text-amber-500/60 mt-0.5">Risk: {Math.round(Number(details?.risk_score) * 100)}%</div>
                                   </div>
                                 </div>
                               )}
@@ -454,7 +449,7 @@ export default function MeerkatOps() {
                                   <div>
                                     <span className="text-purple-400 font-bold">Gemini</span>
                                     <span className="text-zinc-400"> — {String(details?.severity)} {String(details?.pattern)}</span>
-                                    <div className="text-[10px] text-purple-400/60 mt-0.5">Confidence: {Math.round(Number(details?.confidence) * 100)}% · {String(details?.evidence_used)} evidence sources</div>
+                                    <div className="text-[11px] text-purple-400/60 mt-0.5">Confidence: {Math.round(Number(details?.confidence) * 100)}% · {String(details?.evidence_used)} evidence sources</div>
                                   </div>
                                 </div>
                               )}
@@ -469,7 +464,7 @@ export default function MeerkatOps() {
                   </div>
 
                   {/* Right: Active Alerts with Evidence */}
-                  <div className="rounded-2xl bg-zinc-800/40 border border-zinc-700/50 p-4">
+                  <div className="rounded-2xl bg-white/[0.03] border border-white/[0.06] p-4">
                     <h3 className="text-sm font-bold mb-3 flex items-center gap-2">
                       <AlertTriangle className="w-4 h-4 text-red-400" /> Active Alerts
                     </h3>
@@ -484,21 +479,21 @@ export default function MeerkatOps() {
                               className={cn("p-3 rounded-xl border bg-zinc-800/50 cursor-pointer hover:bg-zinc-800/60 transition-all", severityBorder[alert.severity])}
                               onClick={() => setSelectedAlert(alert)}>
                               <div className="flex items-start gap-2 mb-2">
-                                <span className={cn("px-1.5 py-0.5 rounded text-[10px] font-bold text-white", severityColor[alert.severity])}>{alert.severity}</span>
+                                <span className={cn("px-1.5 py-0.5 rounded text-[11px] font-bold text-white", severityColor[alert.severity])}>{alert.severity}</span>
                                 <p className="font-medium text-xs flex-1">{alert.title}</p>
-                                <div className="text-[10px] font-bold text-emerald-400">{Math.round((alert.confidence || 0) * 100)}%</div>
+                                <div className="text-[11px] font-bold text-emerald-400">{Math.round((alert.confidence || 0) * 100)}%</div>
                               </div>
                               <p className="text-[11px] text-zinc-400 mb-2">{alert.gemini_summary?.slice(0, 120)}...</p>
                               {evidence.length > 0 && (
                                 <div className="border-t border-zinc-700/50 pt-2 mt-2">
-                                  <div className="text-[9px] text-zinc-500 uppercase font-bold mb-1">Evidence ({evidence.length} sources)</div>
+                                  <div className="text-[11px] text-zinc-500 uppercase font-bold mb-1">Evidence ({evidence.length} sources)</div>
                                   {evidence.slice(0, 3).map((e, i) => (
-                                    <div key={i} className="text-[10px] text-zinc-500 flex items-center gap-1.5 py-0.5">
+                                    <div key={i} className="text-[11px] text-zinc-400 flex items-center gap-1.5 py-0.5">
                                       <span className="w-1 h-1 rounded-full bg-amber-500 flex-none" />
                                       <span className="text-zinc-400 font-medium">{e.source}:</span> {e.details?.slice(0, 60)}...
                                     </div>
                                   ))}
-                                  {evidence.length > 3 && <div className="text-[9px] text-zinc-500 mt-1">+ {evidence.length - 3} more</div>}
+                                  {evidence.length > 3 && <div className="text-[11px] text-zinc-500 mt-1">+ {evidence.length - 3} more</div>}
                                 </div>
                               )}
                             </motion.div>
@@ -514,7 +509,7 @@ export default function MeerkatOps() {
                   <div className="rounded-2xl bg-purple-500/5 border border-purple-500/20 p-4">
                     <h3 className="text-sm font-bold mb-3 flex items-center gap-2">
                       <Eye className="w-4 h-4 text-purple-400" /> Pending Human Review
-                      <span className="ml-2 px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-400 text-[10px] font-bold">{pendingReviews.length}</span>
+                      <span className="ml-2 px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-400 text-[11px] font-bold">{pendingReviews.length}</span>
                     </h3>
                     {pendingReviews.map((alert) => (
                       <div key={alert.id} className="p-4 rounded-xl bg-zinc-800/50 border border-purple-500/20 flex items-center gap-4">
@@ -556,7 +551,7 @@ export default function MeerkatOps() {
                           <div className="flex-1">
                             <div className="flex items-center gap-2">
                               <p className="font-semibold">{alert.title}</p>
-                              <span className={cn("px-2 py-0.5 rounded-full text-[10px] font-bold uppercase",
+                              <span className={cn("px-2 py-0.5 rounded-full text-[11px] font-bold uppercase",
                                 alert.status === 'resolved' ? 'bg-emerald-500/20 text-emerald-400' :
                                 alert.status === 'suppressed' ? 'bg-zinc-700 text-zinc-400' :
                                 alert.needs_approval ? 'bg-purple-500/20 text-purple-400' :
@@ -577,7 +572,7 @@ export default function MeerkatOps() {
                                       <span className="font-bold text-zinc-300">{e.source}</span>
                                       <span className="text-zinc-500"> ({e.event})</span>
                                       <p className="text-zinc-500 mt-0.5">{e.details}</p>
-                                      <span className="text-amber-500/60 text-[10px]">Risk: {Math.round(e.risk_score * 100)}%</span>
+                                      <span className="text-amber-500/60 text-[11px]">Risk: {Math.round(e.risk_score * 100)}%</span>
                                     </div>
                                   </div>
                                 ))}
@@ -665,7 +660,7 @@ export default function MeerkatOps() {
                     </div>
                   ))}
                 </div>
-                <form onSubmit={handleChat} className="mt-auto p-4 bg-zinc-800/40 border border-zinc-700/50 rounded-xl flex items-center gap-3">
+                <form onSubmit={handleChat} className="mt-auto p-4 bg-white/[0.03] border border-white/[0.06] rounded-xl flex items-center gap-3">
                   <input type="text" value={chatInput} onChange={(e) => setChatInput(e.target.value)}
                     placeholder="Ask Meerkat about security events..."
                     className="flex-1 bg-transparent border-none focus:outline-none text-sm placeholder:text-zinc-500" />
@@ -751,7 +746,7 @@ function PipelineNode({ label, sublabel, active, current, running, color, icon, 
       initial={active ? { opacity: 0, y: -5 } : {}}
       animate={{ opacity: 1, y: 0 }}
       className={cn("flex flex-col items-center text-center flex-1 min-w-0 py-2 px-1 rounded-xl border transition-all",
-        active ? "" : "bg-zinc-800/10 border-zinc-700/50/30",
+        active ? "" : "bg-white/[0.02] border-white/[0.04]",
         large ? "flex-[1.3]" : "",
       )}
       style={active ? {
@@ -762,7 +757,7 @@ function PipelineNode({ label, sublabel, active, current, running, color, icon, 
     >
       {/* Icon */}
       <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center mb-1 transition-all",
-          active ? "" : "bg-zinc-800/40 text-zinc-500",
+          active ? "" : "bg-zinc-800/40 text-zinc-400",
           current && running ? "animate-pulse" : "",
           large ? "w-12 h-12" : "",
         )}
@@ -772,20 +767,20 @@ function PipelineNode({ label, sublabel, active, current, running, color, icon, 
       </div>
 
       {/* Vendor name — BIG */}
-      <span className={cn("text-xs font-black leading-tight", !active && "text-zinc-500", large ? "text-sm" : "")}
+      <span className={cn("text-xs font-black leading-tight", !active && "text-zinc-400", large ? "text-sm" : "")}
         style={active ? { color } : undefined}
       >
         {label}
       </span>
 
       {/* Product detail */}
-      <span className={cn("text-[10px] leading-tight mt-0.5", active ? "text-zinc-400" : "text-zinc-500")}>
+      <span className={cn("text-[11px] leading-tight mt-0.5", active ? "text-zinc-300" : "text-zinc-400")}>
         {sublabel}
       </span>
 
       {/* Status */}
       {active && stat && (
-        <span className="text-[10px] text-zinc-500 mt-1 font-medium">{stat}</span>
+        <span className="text-[11px] text-zinc-400 mt-1 font-medium">{stat}</span>
       )}
 
       {/* Indicators */}
@@ -804,7 +799,7 @@ function PipelineArrow({ active, color }: { active: boolean; color: string }) {
     <div className="flex items-center flex-none">
       <svg width="24" height="16" viewBox="0 0 24 16">
         <path d="M2 8 L18 8 M14 3 L19 8 L14 13"
-          fill="none" stroke={active ? color : '#3f3f46'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+          fill="none" stroke={active ? color : '#52525b'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
           style={{ transition: 'stroke 0.3s ease' }}
         />
       </svg>
@@ -821,7 +816,7 @@ function NavItem({ icon, label, active, onClick, count }: { icon: React.ReactNod
       {icon}
       <span className="flex-1 text-left">{label}</span>
       {count !== undefined && count > 0 && (
-        <span className="px-1.5 py-0.5 rounded-full bg-red-500/20 text-red-400 text-[10px] font-bold">{count}</span>
+        <span className="px-1.5 py-0.5 rounded-full bg-red-500/20 text-red-400 text-[11px] font-bold">{count}</span>
       )}
     </button>
   );
