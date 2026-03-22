@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
 import { google } from '@ai-sdk/google';
 import { generateText } from 'ai';
-import { fetchLogsFromGCS, fetchHighRiskLogs } from '@/lib/gcs';
+import { fetchLogsFromGCS } from '@/lib/gcs';
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 

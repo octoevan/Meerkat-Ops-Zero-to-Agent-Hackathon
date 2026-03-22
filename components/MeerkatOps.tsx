@@ -298,7 +298,7 @@ export default function MeerkatOps() {
                     <div className="text-[11px] text-zinc-400 uppercase tracking-widest font-bold mb-3">Monitored Cloud Services</div>
                     <div className="space-y-2">
                       {services.map((svc) => {
-                        const isRunning = svc.status === 'running';
+                        const svcRunning = svc.status === 'running';
                         const stoppedLabel = svc.stopped_by === 'voice'
                           ? 'Stopped by Voice Call'
                           : svc.stopped_by === 'slack'
@@ -312,35 +312,31 @@ export default function MeerkatOps() {
                             layout
                             className={cn(
                               "flex items-center gap-4 p-4 rounded-xl border transition-all",
-                              isRunning
+                              svcRunning
                                 ? "bg-emerald-500/5 border-emerald-500/20"
                                 : "bg-red-500/5 border-red-500/20"
                             )}
                           >
-                            {/* Status indicator */}
                             <div className={cn(
                               "w-3 h-3 rounded-full flex-none",
-                              isRunning ? "bg-emerald-500 animate-pulse" : "bg-red-500"
+                              svcRunning ? "bg-emerald-500 animate-pulse" : "bg-red-500"
                             )} />
 
-                            {/* Service name */}
                             <div className="flex-1 min-w-0">
                               <p className="text-sm font-bold text-zinc-200">{svc.name}</p>
                               <p className="text-[11px] text-zinc-400">Google Cloud Storage Bucket</p>
                             </div>
 
-                            {/* Status badge */}
                             <div className={cn(
                               "px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wide",
-                              isRunning
+                              svcRunning
                                 ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
                                 : "bg-red-500/10 text-red-400 border border-red-500/20"
                             )}>
-                              {isRunning ? 'Running' : stoppedLabel}
+                              {svcRunning ? 'Running' : stoppedLabel}
                             </div>
 
-                            {/* Timestamp */}
-                            {!isRunning && svc.stopped_at && (
+                            {!svcRunning && svc.stopped_at && (
                               <div className="text-[11px] text-zinc-400 flex items-center gap-1">
                                 <Clock className="w-3 h-3" />
                                 {new Date(svc.stopped_at).toLocaleTimeString()}
