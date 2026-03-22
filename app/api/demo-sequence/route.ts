@@ -81,7 +81,7 @@ async function triggerVoiceCalls(alertContext: string) {
     return;
   }
 
-  for (const num of numbers) {
+  await Promise.all(numbers.map(async (num) => {
     try {
       const res = await fetch('https://api.elevenlabs.io/v1/convai/twilio/outbound-call', {
         method: 'POST',
@@ -107,7 +107,7 @@ async function triggerVoiceCalls(alertContext: string) {
     } catch (err) {
       console.error(`Voice call error for ${num.phone_number}:`, err);
     }
-  }
+  }));
 }
 
 // ---- Simulated log entries (used when GCS is not available) ----
@@ -128,9 +128,10 @@ const SIMULATED_LOGS = [
 
 export async function POST() {
   try {
-    // Reset
-    await supabaseAdmin.from('alerts').delete().neq('id', '00000000-0000-0000-0000-000000000000');
-    await supabaseAdmin.from('agent_activity').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+    await Promise.all([
+      supabaseAdmin.from('alerts').delete().neq('id', '00000000-0000-0000-0000-000000000000'),
+      supabaseAdmin.from('agent_activity').delete().neq('id', '00000000-0000-0000-0000-000000000000'),
+    ]);
 
     // ============================================
     // PHASE 1: LOG INGESTION — stream individual logs

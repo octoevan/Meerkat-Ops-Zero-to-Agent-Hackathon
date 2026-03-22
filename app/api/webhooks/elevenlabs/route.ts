@@ -3,8 +3,7 @@ import { stopRunningServices } from '@/lib/services';
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
-    console.log('ElevenLabs webhook received:', JSON.stringify(body));
+    await req.json();
 
     const { data, error } = await stopRunningServices('voice');
 
