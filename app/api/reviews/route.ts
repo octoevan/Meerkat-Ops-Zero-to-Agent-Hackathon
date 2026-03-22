@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
+import { stopRunningServices } from '@/lib/services';
 
 export async function POST(req: NextRequest) {
   const { alert_id, decision } = await req.json();
@@ -14,5 +15,11 @@ export async function POST(req: NextRequest) {
     .single();
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+  // When confirming (Stop Service), also stop the running service
+  if (decision === 'confirm') {
+    await stopRunningServices('dashboard');
+  }
+
   return NextResponse.json(data);
 }

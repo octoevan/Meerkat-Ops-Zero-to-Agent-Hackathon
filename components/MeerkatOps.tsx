@@ -308,7 +308,9 @@ export default function MeerkatOps() {
                           ? 'Stopped by Voice Call'
                           : svc.stopped_by === 'slack'
                             ? 'Stopped by Slack'
-                            : 'Stopped';
+                            : svc.stopped_by === 'dashboard'
+                              ? 'Stopped by Dashboard'
+                              : 'Stopped';
                         return (
                           <motion.div
                             key={svc.id}

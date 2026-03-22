@@ -23,12 +23,16 @@ export async function POST(req: NextRequest) {
 
       // Check if the message is a "stop service" command
       if (/\bstop\s+(the\s+)?(service|breach|attack)/i.test(userMessage)) {
-        const { data } = await stopRunningServices('slack');
+        const { data, error: stopError } = await stopRunningServices('slack');
 
-        const stoppedCount = data?.length ?? 0;
-        const replyText = stoppedCount > 0
-          ? '🛑 Service stopped. GCS bucket `acme-patient-records` is now offline.\n_Stopped via Slack by your command._'
-          : '⚠️ No running services found to stop. The service may have already been stopped.';
+        let replyText: string;
+        if (stopError) {
+          replyText = `❌ Failed to stop service: ${stopError.message}`;
+        } else if (data && data.length > 0) {
+          replyText = `🛑 Service stopped. ${data[0].name} is now offline.\n_Stopped via Slack by your command._`;
+        } else {
+          replyText = '⚠️ No running services found to stop. The service may have already been stopped.';
+        }
 
         await slack.chat.postMessage({
           channel,

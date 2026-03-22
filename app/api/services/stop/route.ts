@@ -4,8 +4,8 @@ import { stopRunningServices, type StopSource } from '@/lib/services';
 export async function POST(req: NextRequest) {
   const { source } = await req.json();
 
-  if (!source || !['voice', 'slack'].includes(source)) {
-    return NextResponse.json({ error: 'source must be "voice" or "slack"' }, { status: 400 });
+  if (!source || !['voice', 'slack', 'dashboard'].includes(source)) {
+    return NextResponse.json({ error: 'source must be "voice", "slack", or "dashboard"' }, { status: 400 });
   }
 
   const { data, error } = await stopRunningServices(source as StopSource);

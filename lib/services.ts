@@ -1,6 +1,6 @@
 import { supabaseAdmin } from '@/lib/supabase';
 
-export type StopSource = 'voice' | 'slack';
+export type StopSource = 'voice' | 'slack' | 'dashboard';
 
 export async function stopRunningServices(source: StopSource) {
   const { data, error } = await supabaseAdmin
