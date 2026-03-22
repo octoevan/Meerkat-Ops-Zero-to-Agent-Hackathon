@@ -6,3 +6,8 @@ coverage/
 .env*
 !.env.example
 gcs-key.json
+*.key
+*.pem
+credentials.json
+firebase-*.json
+.secrets/
